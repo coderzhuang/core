@@ -8,9 +8,7 @@ import (
 	"net"
 )
 
-type Server interface {
-	RegisterServer()
-}
+type Server func(grpc.ServiceRegistrar)
 
 type NewParam struct {
 	dig.In
@@ -44,7 +42,7 @@ func (s *GrpcService) Run() {
 		return
 	}
 	for _, server := range s.Server {
-		server.RegisterServer()
+		server(s.e)
 	}
 	log.Printf("server listening at %v", lis.Addr())
 	go func() {
