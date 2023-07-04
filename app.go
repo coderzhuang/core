@@ -59,10 +59,22 @@ func InitProvider() *dig.Container {
 	// 以下为系统级别服务
 	_ = container.Provide(New)
 	if Conf.HttpServer.Switch {
+		_ = container.Provide(func() *Option {
+			return &Option{
+				Mode:           Conf.HttpServer.Mode,
+				TrustedProxies: Conf.HttpServer.TrustedProxies,
+				Addr:           Conf.HttpServer.Addr,
+			}
+		})
 		_ = container.Provide(NewHttp, dig.Group("server"))
 		//_ = container.Provide(router.InitRoute, dig.Group("middle"))
 	}
 	if Conf.GrpcServer.Switch {
+		_ = container.Provide(func() *OptionRpc {
+			return &OptionRpc{
+				Addr: Conf.GrpcServer.Addr,
+			}
+		})
 		_ = container.Provide(NewRpc, dig.Group("server"))
 	}
 	if Conf.CronServer.Switch {
