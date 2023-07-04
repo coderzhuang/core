@@ -85,8 +85,8 @@ func InitProvider() *dig.Container {
 	return container
 }
 
-func Run() {
-	InitConf()
+func Run(cfg interface{}) {
+	InitConf(cfg)
 	container := InitProvider()
 	// 加载业务相关服务
 	for _, fn := range services {
