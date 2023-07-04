@@ -1,33 +1,32 @@
-package grpc_service
+package core
 
 import (
-	"github.com/coderzhuang/core/application"
 	"go.uber.org/dig"
 	"google.golang.org/grpc"
 	"log"
 	"net"
 )
 
-type Server func(grpc.ServiceRegistrar)
+type RpcServer func(grpc.ServiceRegistrar)
 
 type NewParam struct {
 	dig.In
 
-	Option *Option
-	Server []Server `group:"grpc_server"`
+	Option *OptionRpc
+	Server []RpcServer `group:"grpc_server"`
 }
 
-type Option struct {
+type OptionRpc struct {
 	Addr string
 }
 
 type GrpcService struct {
 	e      *grpc.Server
-	o      *Option
-	Server []Server
+	o      *OptionRpc
+	Server []RpcServer
 }
 
-func New(o *Option, p NewParam) application.Service {
+func NewRpc(o *OptionRpc, p NewParam) Server {
 	return &GrpcService{
 		e:      grpc.NewServer(),
 		o:      o,

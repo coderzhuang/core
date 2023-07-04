@@ -1,7 +1,6 @@
-package cron_service
+package core
 
 import (
-	"github.com/coderzhuang/core/application"
 	"github.com/robfig/cron/v3"
 )
 
@@ -11,7 +10,7 @@ type CronService struct {
 
 type CronClosure func(*cron.Cron)
 
-func New(fn CronClosure) application.Service {
+func NewCron(fn CronClosure) Server {
 	c := cron.New()
 	fn(c)
 	return &CronService{c: c}

@@ -1,8 +1,7 @@
-package http_service
+package core
 
 import (
 	"context"
-	"github.com/coderzhuang/core/application"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/dig"
 	"net/http"
@@ -28,7 +27,7 @@ type OptionGroup struct {
 	Middle []Middle `group:"middle"`
 }
 
-func New(opts OptionGroup) application.Service {
+func NewHttp(opts OptionGroup) Server {
 	gin.SetMode(opts.Option.Mode)
 	e := gin.New()
 	_ = e.SetTrustedProxies(opts.Option.TrustedProxies)
