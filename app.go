@@ -67,7 +67,6 @@ func InitProvider() *dig.Container {
 			}
 		})
 		_ = container.Provide(NewHttp, dig.Group("server"))
-		//_ = container.Provide(router.InitRoute, dig.Group("middle"))
 	}
 	if Conf.GrpcServer.Switch {
 		_ = container.Provide(func() *OptionRpc {
@@ -79,7 +78,6 @@ func InitProvider() *dig.Container {
 	}
 	if Conf.CronServer.Switch {
 		_ = container.Provide(NewCron, dig.Group("server"))
-		//_ = container.Provide(cron.InitCron)
 	}
 
 	return container
